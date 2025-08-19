@@ -18,9 +18,8 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react({
-      // Configure Fast Refresh to avoid export compatibility issues
-      include: "**/*.{jsx,tsx}",
-      exclude: ["**/node_modules/**"],
+      // Enable Fast Refresh for better development experience
+      fastRefresh: true,
     }),
     expressPlugin()
   ],
