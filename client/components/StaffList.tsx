@@ -108,6 +108,24 @@ const StaffList = () => {
     }
   };
 
+  const handleExportStaff = () => {
+    const staffToExport = filteredStaff;
+    if (staffToExport.length === 0) {
+      alert('No staff members to export');
+      return;
+    }
+    exportStaffReport(staffToExport, undefined, { includeStats: true });
+  };
+
+  const handleExportSelected = () => {
+    if (selectedStaff.length === 0) {
+      alert('Please select staff members to export');
+      return;
+    }
+    const selectedStaffData = filteredStaff.filter(staff => selectedStaff.includes(staff.id));
+    exportStaffReport(selectedStaffData, undefined, { includeStats: true });
+  };
+
   const handleStatusChange = async (
     staffId: string,
     newStatus: EmploymentStatus,
