@@ -177,19 +177,69 @@ export default function Index() {
 
   return (
     <Layout>
-      <div className="max-w-7xl mx-auto space-y-8">
+      <div className="max-w-7xl mx-auto space-y-4 lg:space-y-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Admin Dashboard
-          </h1>
-          <p className="text-gray-600">
-            Overview of your pipes manufacturing operations
-          </p>
+        <div className="mb-4 lg:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+                Admin Dashboard
+              </h1>
+              <p className="text-gray-600 text-sm lg:text-base">
+                Overview of your pipes manufacturing operations
+              </p>
+            </div>
+            {/* Quick Actions */}
+            <div className="flex flex-wrap gap-2">
+              <Link to="/items">
+                <Button size="sm" className="bg-red-600 hover:bg-red-700">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Item
+                </Button>
+              </Link>
+              <Link to="/orders">
+                <Button size="sm" variant="outline">
+                  <Eye className="h-4 w-4 mr-2" />
+                  View Orders
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Alerts Section */}
+        <div className="space-y-4">
+          {/* Low Stock Alert */}
+          {lowStockItems.length > 0 && (
+            <Alert className="border-amber-200 bg-amber-50">
+              <AlertTriangle className="h-4 w-4 text-amber-600" />
+              <AlertTitle className="text-amber-800">Low Stock Alert</AlertTitle>
+              <AlertDescription className="text-amber-700">
+                {lowStockItems.length} item(s) are running low on stock and need restocking.
+                <Link to="/items" className="ml-2 text-amber-800 underline hover:text-amber-900">
+                  Manage Inventory →
+                </Link>
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {/* New Orders Alert */}
+          {newOrders.length > 0 && (
+            <Alert className="border-blue-200 bg-blue-50">
+              <Bell className="h-4 w-4 text-blue-600" />
+              <AlertTitle className="text-blue-800">New Orders ({newOrders.length})</AlertTitle>
+              <AlertDescription className="text-blue-700">
+                You have {newOrders.length} new order(s) in the last 24 hours that require attention.
+                <Link to="/orders" className="ml-2 text-blue-800 underline hover:text-blue-900">
+                  View Orders →
+                </Link>
+              </AlertDescription>
+            </Alert>
+          )}
         </div>
 
         {/* Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           <Card className="border-red-200 bg-gradient-to-br from-white to-red-50">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-gray-700">
