@@ -43,8 +43,11 @@ import {
   UserCheck,
   UserX,
   Coffee,
+  FileText,
+  Download,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { exportStaffReport } from "@/lib/pdfExport";
 import { useToast } from "@/hooks/use-toast";
 
 const StaffList = () => {
