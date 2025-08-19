@@ -551,7 +551,7 @@ const AttendanceTracker = () => {
                       className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
                     >
                       <div className="flex items-center gap-4">
-                        {member.avatar ? (
+                        {member.avatar && typeof member.avatar === 'string' ? (
                           <img
                             src={member.avatar}
                             alt={`${member.firstName} ${member.lastName}`}
