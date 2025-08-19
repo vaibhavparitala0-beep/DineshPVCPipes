@@ -17,70 +17,22 @@ import {
   Eye,
   Edit,
   ArrowRight,
+  RefreshCw,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useDashboard } from "@/hooks/useDashboard";
 
 export default function Index() {
-  // Mock data for demonstration
-  const metrics = {
-    totalOrders: 1247,
-    totalShipped: 986,
-    totalComplete: 923,
-    totalCustomers: 156,
-  };
-
-  // Low stock items
-  const lowStockItems = [
-    {
-      id: "ITM-001",
-      name: "Steel Pipes 6mm",
-      currentStock: 5,
-      minimumStock: 20,
-      category: "steel",
-    },
-    {
-      id: "ITM-002",
-      name: "PVC Pipes 12mm",
-      currentStock: 8,
-      minimumStock: 25,
-      category: "pvc",
-    },
-    {
-      id: "ITM-003",
-      name: "Copper Pipes 8mm",
-      currentStock: 3,
-      minimumStock: 15,
-      category: "copper",
-    },
-  ];
-
-  // New orders (last 24 hours)
-  const newOrders = [
-    {
-      id: "ORD-006",
-      customer: "TechBuild Solutions",
-      items: "Steel Pipes 10mm x 150m",
-      priority: "High",
-      time: "2 minutes ago",
-      amount: "$18,500",
-    },
-    {
-      id: "ORD-007",
-      customer: "Modern Construction",
-      items: "PVC Pipes 15mm x 80m",
-      priority: "Medium",
-      time: "15 minutes ago",
-      amount: "$9,200",
-    },
-    {
-      id: "ORD-008",
-      customer: "Elite Manufacturing",
-      items: "Aluminum Pipes 12mm x 120m",
-      priority: "Urgent",
-      time: "1 hour ago",
-      amount: "$22,400",
-    },
-  ];
+  const {
+    metrics,
+    lowStockItems,
+    newOrders,
+    recentOrders,
+    completedDeliveries,
+    loading,
+    lastUpdated,
+    refreshData,
+  } = useDashboard();
 
   const recentOrders = [
     {
@@ -203,6 +155,15 @@ export default function Index() {
                   View Orders
                 </Button>
               </Link>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={refreshData}
+                disabled={loading}
+              >
+                <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                Refresh
+              </Button>
             </div>
           </div>
         </div>
@@ -210,12 +171,12 @@ export default function Index() {
         {/* Alerts Section */}
         <div className="space-y-4">
           {/* Low Stock Alert */}
-          {lowStockItems.length > 0 && (
+          {lowStockItems.filter(item => item.currentStock <= item.minimumStock * 0.5).length > 0 && (
             <Alert className="border-amber-200 bg-amber-50">
               <AlertTriangle className="h-4 w-4 text-amber-600" />
-              <AlertTitle className="text-amber-800">Low Stock Alert</AlertTitle>
+              <AlertTitle className="text-amber-800">Critical Stock Alert</AlertTitle>
               <AlertDescription className="text-amber-700">
-                {lowStockItems.length} item(s) are running low on stock and need restocking.
+                {lowStockItems.filter(item => item.currentStock <= item.minimumStock * 0.5).length} item(s) are critically low on stock and need immediate restocking.
                 <Link to="/items" className="ml-2 text-amber-800 underline hover:text-amber-900">
                   Manage Inventory →
                 </Link>
@@ -236,6 +197,11 @@ export default function Index() {
               </AlertDescription>
             </Alert>
           )}
+
+          {/* Last Updated Info */}
+          <div className="text-xs text-gray-500 text-right">
+            Last updated: {lastUpdated.toLocaleTimeString()}
+          </div>
         </div>
 
         {/* Metrics Cards */}
