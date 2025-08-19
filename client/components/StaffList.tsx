@@ -472,7 +472,7 @@ const StaffList = () => {
 
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-3">
-                          {staffMember.avatar ? (
+                          {staffMember.avatar && typeof staffMember.avatar === 'string' ? (
                             <img
                               src={staffMember.avatar}
                               alt={`${staffMember.firstName} ${staffMember.lastName}`}
