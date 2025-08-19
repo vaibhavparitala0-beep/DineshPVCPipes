@@ -65,7 +65,7 @@ export interface Staff {
   lastName: string;
   email: string;
   phone: string;
-  avatar?: string;
+  avatar?: string | File;
 
   // Employment Details
   role: StaffRole;
