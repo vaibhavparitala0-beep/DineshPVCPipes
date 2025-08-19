@@ -171,11 +171,7 @@ const AttendanceTracker = () => {
       return;
     }
     exportStaffReport(staff, attendanceRecords, {
-      includeStats: true,
-      dateRange: dateRange.from && dateRange.to ? {
-        from: dateRange.from.toISOString(),
-        to: dateRange.to.toISOString()
-      } : undefined
+      includeStats: true
     });
   };
 
