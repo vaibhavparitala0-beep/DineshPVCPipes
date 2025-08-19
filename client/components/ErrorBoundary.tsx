@@ -29,7 +29,7 @@ export class ErrorBoundary extends Component<Props, State> {
     if (import.meta.env.DEV) {
       console.error("ErrorBoundary caught an error:", error, errorInfo);
     }
-    
+
     this.setState({
       error,
       errorInfo,
@@ -63,10 +63,12 @@ export class ErrorBoundary extends Component<Props, State> {
                 The application encountered an unexpected error. This is usually
                 temporary and can be resolved by refreshing the page.
               </p>
-              
+
               {import.meta.env.DEV && this.state.error && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                  <h4 className="font-semibold text-red-800 mb-2">Error Details:</h4>
+                  <h4 className="font-semibold text-red-800 mb-2">
+                    Error Details:
+                  </h4>
                   <pre className="text-sm text-red-700 whitespace-pre-wrap overflow-x-auto">
                     {this.state.error.message}
                   </pre>
@@ -84,7 +86,10 @@ export class ErrorBoundary extends Component<Props, State> {
               )}
 
               <div className="flex gap-2">
-                <Button onClick={this.handleReload} className="flex items-center gap-2">
+                <Button
+                  onClick={this.handleReload}
+                  className="flex items-center gap-2"
+                >
                   <RefreshCw className="h-4 w-4" />
                   Reload Page
                 </Button>

@@ -10,7 +10,9 @@ function getOrCreateRoot(): Root {
   const container = document.getElementById("root");
 
   if (!container) {
-    throw new Error("Root container not found. Make sure there's a div with id='root' in your HTML.");
+    throw new Error(
+      "Root container not found. Make sure there's a div with id='root' in your HTML.",
+    );
   }
 
   // Only create a new root if one doesn't exist
