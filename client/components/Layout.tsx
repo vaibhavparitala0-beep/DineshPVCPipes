@@ -1,5 +1,6 @@
 import { ReactNode, useState } from "react";
 import Navigation from "./Navigation";
+import NotificationCenter from "./NotificationCenter";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
@@ -22,6 +23,11 @@ const Layout = ({ children }: LayoutProps) => {
         {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </Button>
 
+      {/* Notification Center - Mobile */}
+      <div className="fixed top-4 right-4 z-50 lg:hidden">
+        <NotificationCenter />
+      </div>
+
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
         <div
@@ -38,6 +44,10 @@ const Layout = ({ children }: LayoutProps) => {
 
       {/* Main Content */}
       <main className="flex-1 p-4 lg:p-8 pt-16 lg:pt-8">
+        {/* Desktop Notification Center */}
+        <div className="hidden lg:flex justify-end mb-4">
+          <NotificationCenter />
+        </div>
         {children}
       </main>
     </div>
