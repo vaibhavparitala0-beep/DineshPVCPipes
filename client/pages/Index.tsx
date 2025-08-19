@@ -29,6 +29,59 @@ export default function Index() {
     totalCustomers: 156,
   };
 
+  // Low stock items
+  const lowStockItems = [
+    {
+      id: "ITM-001",
+      name: "Steel Pipes 6mm",
+      currentStock: 5,
+      minimumStock: 20,
+      category: "steel",
+    },
+    {
+      id: "ITM-002",
+      name: "PVC Pipes 12mm",
+      currentStock: 8,
+      minimumStock: 25,
+      category: "pvc",
+    },
+    {
+      id: "ITM-003",
+      name: "Copper Pipes 8mm",
+      currentStock: 3,
+      minimumStock: 15,
+      category: "copper",
+    },
+  ];
+
+  // New orders (last 24 hours)
+  const newOrders = [
+    {
+      id: "ORD-006",
+      customer: "TechBuild Solutions",
+      items: "Steel Pipes 10mm x 150m",
+      priority: "High",
+      time: "2 minutes ago",
+      amount: "$18,500",
+    },
+    {
+      id: "ORD-007",
+      customer: "Modern Construction",
+      items: "PVC Pipes 15mm x 80m",
+      priority: "Medium",
+      time: "15 minutes ago",
+      amount: "$9,200",
+    },
+    {
+      id: "ORD-008",
+      customer: "Elite Manufacturing",
+      items: "Aluminum Pipes 12mm x 120m",
+      priority: "Urgent",
+      time: "1 hour ago",
+      amount: "$22,400",
+    },
+  ];
+
   const recentOrders = [
     {
       id: "ORD-001",
