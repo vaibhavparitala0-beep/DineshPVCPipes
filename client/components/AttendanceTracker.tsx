@@ -43,8 +43,10 @@ import {
   BarChart3,
   TrendingUp,
   Users,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { exportStaffReport } from "@/lib/pdfExport";
 
 const AttendanceTracker = () => {
   const {
