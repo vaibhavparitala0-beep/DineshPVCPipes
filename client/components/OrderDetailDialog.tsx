@@ -1,23 +1,34 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { useOrders } from '@/hooks/useOrders';
-import { Order, OrderStatus, Priority } from '@shared/orders';
-import { useToast } from '@/hooks/use-toast';
-import { 
-  Package, 
-  User, 
-  MapPin, 
-  DollarSign, 
-  Calendar, 
-  Truck, 
-  Phone, 
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { useOrders } from "@/hooks/useOrders";
+import { Order, OrderStatus, Priority } from "@shared/orders";
+import { useToast } from "@/hooks/use-toast";
+import {
+  Package,
+  User,
+  MapPin,
+  DollarSign,
+  Calendar,
+  Truck,
+  Phone,
   Mail,
   Building,
   Clock,
@@ -27,9 +38,9 @@ import {
   Save,
   X,
   Copy,
-  ExternalLink
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+  ExternalLink,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface OrderDetailDialogProps {
   order: Order;
@@ -37,70 +48,74 @@ interface OrderDetailDialogProps {
   onClose: () => void;
 }
 
-const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => {
+const OrderDetailDialog = ({
+  order,
+  open,
+  onClose,
+}: OrderDetailDialogProps) => {
   const { updateOrderStatus, updateOrderPriority } = useOrders();
   const { toast } = useToast();
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
   const [isUpdatingPriority, setIsUpdatingPriority] = useState(false);
-  const [statusNotes, setStatusNotes] = useState('');
+  const [statusNotes, setStatusNotes] = useState("");
   const [showStatusUpdate, setShowStatusUpdate] = useState(false);
 
   const getStatusColor = (status: OrderStatus) => {
     switch (status) {
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'confirmed':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'processing':
-      case 'manufacturing':
-        return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'quality_check':
-        return 'bg-orange-100 text-orange-800 border-orange-200';
-      case 'ready_to_ship':
-        return 'bg-indigo-100 text-indigo-800 border-indigo-200';
-      case 'shipped':
-      case 'in_transit':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'out_for_delivery':
-        return 'bg-cyan-100 text-cyan-800 border-cyan-200';
-      case 'delivered':
-        return 'bg-green-100 text-green-800 border-green-200';
-      case 'cancelled':
-      case 'returned':
-        return 'bg-red-100 text-red-800 border-red-200';
+      case "pending":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "confirmed":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "processing":
+      case "manufacturing":
+        return "bg-purple-100 text-purple-800 border-purple-200";
+      case "quality_check":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "ready_to_ship":
+        return "bg-indigo-100 text-indigo-800 border-indigo-200";
+      case "shipped":
+      case "in_transit":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "out_for_delivery":
+        return "bg-cyan-100 text-cyan-800 border-cyan-200";
+      case "delivered":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "cancelled":
+      case "returned":
+        return "bg-red-100 text-red-800 border-red-200";
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getPriorityColor = (priority: Priority) => {
     switch (priority) {
-      case 'urgent':
-        return 'bg-red-100 text-red-800 border-red-200';
-      case 'high':
-        return 'bg-orange-100 text-orange-800 border-orange-200';
-      case 'medium':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'low':
-        return 'bg-green-100 text-green-800 border-green-200';
+      case "urgent":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "high":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "medium":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "low":
+        return "bg-green-100 text-green-800 border-green-200";
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getPaymentStatusColor = (status: string) => {
     switch (status) {
-      case 'paid':
-        return 'bg-green-100 text-green-800 border-green-200';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'partial':
-        return 'bg-orange-100 text-orange-800 border-orange-200';
-      case 'failed':
-      case 'refunded':
-        return 'bg-red-100 text-red-800 border-red-200';
+      case "paid":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "partial":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "failed":
+      case "refunded":
+        return "bg-red-100 text-red-800 border-red-200";
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
@@ -110,10 +125,10 @@ const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => 
       await updateOrderStatus(order.id, newStatus, statusNotes);
       toast({
         title: "Status Updated",
-        description: `Order status changed to ${newStatus.replace('_', ' ')}`,
+        description: `Order status changed to ${newStatus.replace("_", " ")}`,
       });
       setShowStatusUpdate(false);
-      setStatusNotes('');
+      setStatusNotes("");
     } catch (error) {
       toast({
         title: "Error",
@@ -145,28 +160,28 @@ const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => 
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(amount);
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const getTimelineIcon = (status: OrderStatus) => {
     switch (status) {
-      case 'delivered':
+      case "delivered":
         return <CheckCircle className="h-4 w-4 text-green-600" />;
-      case 'cancelled':
-      case 'returned':
+      case "cancelled":
+      case "returned":
         return <AlertCircle className="h-4 w-4 text-red-600" />;
       default:
         return <Clock className="h-4 w-4 text-blue-600" />;
@@ -191,7 +206,7 @@ const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => 
             </DialogTitle>
             <div className="flex items-center gap-2">
               <Badge className={getStatusColor(order.status)}>
-                {order.status.replace('_', ' ').toUpperCase()}
+                {order.status.replace("_", " ").toUpperCase()}
               </Badge>
               <Badge className={getPriorityColor(order.priority)}>
                 {order.priority.toUpperCase()}
@@ -214,27 +229,43 @@ const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => 
               <CardContent>
                 <div className="space-y-4">
                   {order.items.map((item) => (
-                    <div key={item.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                    <div
+                      key={item.id}
+                      className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
+                    >
                       {item.image ? (
-                        <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-lg" />
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-16 h-16 object-cover rounded-lg"
+                        />
                       ) : (
                         <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
                           <Package className="h-8 w-8 text-gray-400" />
                         </div>
                       )}
                       <div className="flex-1">
-                        <h4 className="font-semibold text-gray-900">{item.name}</h4>
+                        <h4 className="font-semibold text-gray-900">
+                          {item.name}
+                        </h4>
                         <p className="text-sm text-gray-600">
-                          {item.diameter}mm × {item.length}m - {item.specifications.material}
+                          {item.diameter}mm × {item.length}m -{" "}
+                          {item.specifications.material}
                         </p>
                         <p className="text-sm text-gray-500">
                           Category: {item.category.toUpperCase()}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-semibold text-gray-900">Qty: {item.quantity}</p>
-                        <p className="text-sm text-gray-600">{formatCurrency(item.unitPrice)} each</p>
-                        <p className="font-bold text-red-600">{formatCurrency(item.totalPrice)}</p>
+                        <p className="font-semibold text-gray-900">
+                          Qty: {item.quantity}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {formatCurrency(item.unitPrice)} each
+                        </p>
+                        <p className="font-bold text-red-600">
+                          {formatCurrency(item.totalPrice)}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -253,40 +284,64 @@ const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => 
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">Contact Details</h4>
+                    <h4 className="font-semibold text-gray-900 mb-2">
+                      Contact Details
+                    </h4>
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
                         <User className="h-4 w-4 text-gray-500" />
-                        <span className="text-gray-900">{order.customer.name}</span>
+                        <span className="text-gray-900">
+                          {order.customer.name}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Building className="h-4 w-4 text-gray-500" />
-                        <span className="text-gray-600">{order.customer.company}</span>
+                        <span className="text-gray-600">
+                          {order.customer.company}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Mail className="h-4 w-4 text-gray-500" />
-                        <span className="text-gray-600">{order.customer.email}</span>
-                        <Button size="sm" variant="ghost" onClick={() => copyToClipboard(order.customer.email)}>
+                        <span className="text-gray-600">
+                          {order.customer.email}
+                        </span>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => copyToClipboard(order.customer.email)}
+                        >
                           <Copy className="h-3 w-3" />
                         </Button>
                       </div>
                       <div className="flex items-center gap-2">
                         <Phone className="h-4 w-4 text-gray-500" />
-                        <span className="text-gray-600">{order.customer.phone}</span>
-                        <Button size="sm" variant="ghost" onClick={() => copyToClipboard(order.customer.phone)}>
+                        <span className="text-gray-600">
+                          {order.customer.phone}
+                        </span>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => copyToClipboard(order.customer.phone)}
+                        >
                           <Copy className="h-3 w-3" />
                         </Button>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">Billing Address</h4>
+                    <h4 className="font-semibold text-gray-900 mb-2">
+                      Billing Address
+                    </h4>
                     <div className="flex items-start gap-2">
                       <MapPin className="h-4 w-4 text-gray-500 mt-1" />
                       <div className="text-gray-600">
                         <p>{order.customer.address.street}</p>
-                        <p>{order.customer.address.city}, {order.customer.address.state} {order.customer.address.zipCode}</p>
+                        <p>
+                          {order.customer.address.city},{" "}
+                          {order.customer.address.state}{" "}
+                          {order.customer.address.zipCode}
+                        </p>
                         <p>{order.customer.address.country}</p>
                       </div>
                     </div>
@@ -306,15 +361,31 @@ const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => 
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">Shipping Details</h4>
+                    <h4 className="font-semibold text-gray-900 mb-2">
+                      Shipping Details
+                    </h4>
                     <div className="space-y-2">
-                      <p><span className="font-medium">Method:</span> {order.shipping.method}</p>
-                      <p><span className="font-medium">Carrier:</span> {order.shipping.carrier}</p>
+                      <p>
+                        <span className="font-medium">Method:</span>{" "}
+                        {order.shipping.method}
+                      </p>
+                      <p>
+                        <span className="font-medium">Carrier:</span>{" "}
+                        {order.shipping.carrier}
+                      </p>
                       {order.shipping.trackingNumber && (
                         <div className="flex items-center gap-2">
                           <span className="font-medium">Tracking:</span>
-                          <span className="text-blue-600">{order.shipping.trackingNumber}</span>
-                          <Button size="sm" variant="ghost" onClick={() => copyToClipboard(order.shipping.trackingNumber!)}>
+                          <span className="text-blue-600">
+                            {order.shipping.trackingNumber}
+                          </span>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() =>
+                              copyToClipboard(order.shipping.trackingNumber!)
+                            }
+                          >
                             <Copy className="h-3 w-3" />
                           </Button>
                           <Button size="sm" variant="ghost">
@@ -322,17 +393,26 @@ const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => 
                           </Button>
                         </div>
                       )}
-                      <p><span className="font-medium">Cost:</span> {formatCurrency(order.shipping.cost)}</p>
+                      <p>
+                        <span className="font-medium">Cost:</span>{" "}
+                        {formatCurrency(order.shipping.cost)}
+                      </p>
                     </div>
                   </div>
-                  
+
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">Delivery Address</h4>
+                    <h4 className="font-semibold text-gray-900 mb-2">
+                      Delivery Address
+                    </h4>
                     <div className="flex items-start gap-2">
                       <MapPin className="h-4 w-4 text-gray-500 mt-1" />
                       <div className="text-gray-600">
                         <p>{order.shipping.address.street}</p>
-                        <p>{order.shipping.address.city}, {order.shipping.address.state} {order.shipping.address.zipCode}</p>
+                        <p>
+                          {order.shipping.address.city},{" "}
+                          {order.shipping.address.state}{" "}
+                          {order.shipping.address.zipCode}
+                        </p>
                         <p>{order.shipping.address.country}</p>
                       </div>
                     </div>
@@ -355,26 +435,36 @@ const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => 
               <CardContent className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Subtotal:</span>
-                  <span className="font-medium">{formatCurrency(order.subtotal)}</span>
+                  <span className="font-medium">
+                    {formatCurrency(order.subtotal)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Tax:</span>
-                  <span className="font-medium">{formatCurrency(order.tax)}</span>
+                  <span className="font-medium">
+                    {formatCurrency(order.tax)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Shipping:</span>
-                  <span className="font-medium">{formatCurrency(order.shippingCost)}</span>
+                  <span className="font-medium">
+                    {formatCurrency(order.shippingCost)}
+                  </span>
                 </div>
                 {order.discount && (
                   <div className="flex justify-between text-green-600">
                     <span>Discount:</span>
-                    <span className="font-medium">-{formatCurrency(order.discount)}</span>
+                    <span className="font-medium">
+                      -{formatCurrency(order.discount)}
+                    </span>
                   </div>
                 )}
                 <Separator />
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total:</span>
-                  <span className="text-red-600">{formatCurrency(order.totalAmount)}</span>
+                  <span className="text-red-600">
+                    {formatCurrency(order.totalAmount)}
+                  </span>
                 </div>
                 <div className="text-center">
                   <Badge className={getPaymentStatusColor(order.paymentStatus)}>
@@ -406,13 +496,17 @@ const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => 
                 {order.estimatedCompletion && (
                   <div>
                     <p className="text-sm text-gray-600">Est. Completion</p>
-                    <p className="font-medium">{formatDate(order.estimatedCompletion)}</p>
+                    <p className="font-medium">
+                      {formatDate(order.estimatedCompletion)}
+                    </p>
                   </div>
                 )}
                 {order.shipping.estimatedDelivery && (
                   <div>
                     <p className="text-sm text-gray-600">Est. Delivery</p>
-                    <p className="font-medium">{formatDate(order.shipping.estimatedDelivery)}</p>
+                    <p className="font-medium">
+                      {formatDate(order.shipping.estimatedDelivery)}
+                    </p>
                   </div>
                 )}
               </CardContent>
@@ -426,16 +520,25 @@ const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => 
               <CardContent className="space-y-3">
                 <div>
                   <Label className="text-sm font-medium">Update Status</Label>
-                  <Select onValueChange={handleStatusUpdate} disabled={isUpdatingStatus}>
+                  <Select
+                    onValueChange={handleStatusUpdate}
+                    disabled={isUpdatingStatus}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Change status..." />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="confirmed">Confirmed</SelectItem>
                       <SelectItem value="processing">Processing</SelectItem>
-                      <SelectItem value="manufacturing">Manufacturing</SelectItem>
-                      <SelectItem value="quality_check">Quality Check</SelectItem>
-                      <SelectItem value="ready_to_ship">Ready to Ship</SelectItem>
+                      <SelectItem value="manufacturing">
+                        Manufacturing
+                      </SelectItem>
+                      <SelectItem value="quality_check">
+                        Quality Check
+                      </SelectItem>
+                      <SelectItem value="ready_to_ship">
+                        Ready to Ship
+                      </SelectItem>
                       <SelectItem value="shipped">Shipped</SelectItem>
                       <SelectItem value="delivered">Delivered</SelectItem>
                       <SelectItem value="cancelled">Cancelled</SelectItem>
@@ -445,7 +548,10 @@ const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => 
 
                 <div>
                   <Label className="text-sm font-medium">Update Priority</Label>
-                  <Select onValueChange={handlePriorityUpdate} disabled={isUpdatingPriority}>
+                  <Select
+                    onValueChange={handlePriorityUpdate}
+                    disabled={isUpdatingPriority}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Change priority..." />
                     </SelectTrigger>
@@ -479,13 +585,15 @@ const OrderDetailDialog = ({ order, open, onClose }: OrderDetailDialogProps) => 
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-gray-900">
-                          {history.status.replace('_', ' ').toUpperCase()}
+                          {history.status.replace("_", " ").toUpperCase()}
                         </p>
                         <p className="text-xs text-gray-600">
                           {formatDate(history.timestamp)} by {history.updatedBy}
                         </p>
                         {history.notes && (
-                          <p className="text-xs text-gray-500 mt-1">{history.notes}</p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {history.notes}
+                          </p>
                         )}
                       </div>
                     </div>

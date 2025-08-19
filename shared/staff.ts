@@ -1,39 +1,49 @@
-export type StaffRole = 
-  | 'admin' 
-  | 'manager' 
-  | 'supervisor' 
-  | 'production_lead'
-  | 'machine_operator'
-  | 'quality_inspector'
-  | 'warehouse_staff'
-  | 'maintenance'
-  | 'shipping_clerk'
-  | 'sales_rep'
-  | 'hr'
-  | 'accountant';
+export type StaffRole =
+  | "admin"
+  | "manager"
+  | "supervisor"
+  | "production_lead"
+  | "machine_operator"
+  | "quality_inspector"
+  | "warehouse_staff"
+  | "maintenance"
+  | "shipping_clerk"
+  | "sales_rep"
+  | "hr"
+  | "accountant";
 
-export type Department = 
-  | 'administration'
-  | 'production'
-  | 'quality_control'
-  | 'warehouse'
-  | 'maintenance'
-  | 'shipping'
-  | 'sales'
-  | 'hr'
-  | 'finance';
+export type Department =
+  | "administration"
+  | "production"
+  | "quality_control"
+  | "warehouse"
+  | "maintenance"
+  | "shipping"
+  | "sales"
+  | "hr"
+  | "finance";
 
-export type EmploymentStatus = 'active' | 'inactive' | 'on_leave' | 'terminated';
+export type EmploymentStatus =
+  | "active"
+  | "inactive"
+  | "on_leave"
+  | "terminated";
 
-export type AttendanceStatus = 'present' | 'absent' | 'late' | 'early_leave' | 'half_day' | 'overtime';
+export type AttendanceStatus =
+  | "present"
+  | "absent"
+  | "late"
+  | "early_leave"
+  | "half_day"
+  | "overtime";
 
-export type ShiftType = 'day' | 'night' | 'rotating' | 'flexible';
+export type ShiftType = "day" | "night" | "rotating" | "flexible";
 
 export interface Permission {
   id: string;
   name: string;
   description: string;
-  module: 'orders' | 'items' | 'staff' | 'reports' | 'settings';
+  module: "orders" | "items" | "staff" | "reports" | "settings";
 }
 
 export interface Role {
@@ -56,7 +66,7 @@ export interface Staff {
   email: string;
   phone: string;
   avatar?: string;
-  
+
   // Employment Details
   role: StaffRole;
   department: Department;
@@ -64,7 +74,7 @@ export interface Staff {
   hireDate: string;
   salary: number;
   status: EmploymentStatus;
-  
+
   // Contact Information
   address: {
     street: string;
@@ -78,21 +88,21 @@ export interface Staff {
     relationship: string;
     phone: string;
   };
-  
+
   // Work Details
   manager?: string; // Staff ID of manager
   shift: ShiftType;
   workingHours: {
     startTime: string; // HH:MM format
-    endTime: string;   // HH:MM format
+    endTime: string; // HH:MM format
     breakDuration: number; // minutes
   };
-  
+
   // System Access
   roles: Role[];
   lastLogin?: string;
   isActive: boolean;
-  
+
   // Metadata
   createdAt: string;
   updatedAt: string;
@@ -129,7 +139,7 @@ export interface TimeSheet {
   daysPresent: number;
   daysAbsent: number;
   daysLate: number;
-  status: 'draft' | 'submitted' | 'approved' | 'rejected';
+  status: "draft" | "submitted" | "approved" | "rejected";
   submittedAt?: string;
   approvedAt?: string;
   approvedBy?: string;
@@ -204,7 +214,12 @@ export interface StaffStats {
 }
 
 export interface BulkStaffAction {
-  type: 'update_status' | 'change_department' | 'assign_role' | 'update_manager' | 'export';
+  type:
+    | "update_status"
+    | "change_department"
+    | "assign_role"
+    | "update_manager"
+    | "export";
   value?: string;
   staffIds: string[];
 }

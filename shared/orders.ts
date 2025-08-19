@@ -1,20 +1,25 @@
-export type OrderStatus = 
-  | 'pending' 
-  | 'confirmed' 
-  | 'processing' 
-  | 'manufacturing' 
-  | 'quality_check' 
-  | 'ready_to_ship' 
-  | 'shipped' 
-  | 'in_transit' 
-  | 'out_for_delivery' 
-  | 'delivered' 
-  | 'cancelled' 
-  | 'returned';
+export type OrderStatus =
+  | "pending"
+  | "confirmed"
+  | "processing"
+  | "manufacturing"
+  | "quality_check"
+  | "ready_to_ship"
+  | "shipped"
+  | "in_transit"
+  | "out_for_delivery"
+  | "delivered"
+  | "cancelled"
+  | "returned";
 
-export type Priority = 'low' | 'medium' | 'high' | 'urgent';
+export type Priority = "low" | "medium" | "high" | "urgent";
 
-export type PaymentStatus = 'pending' | 'paid' | 'partial' | 'refunded' | 'failed';
+export type PaymentStatus =
+  | "pending"
+  | "paid"
+  | "partial"
+  | "refunded"
+  | "failed";
 
 export interface OrderItem {
   id: string;
@@ -125,7 +130,7 @@ export interface OrderStats {
 }
 
 export interface BulkAction {
-  type: 'update_status' | 'assign_to' | 'add_tag' | 'remove_tag' | 'export';
+  type: "update_status" | "assign_to" | "add_tag" | "remove_tag" | "export";
   value?: string;
   orderIds: string[];
 }

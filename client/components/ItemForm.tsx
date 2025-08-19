@@ -1,15 +1,27 @@
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { useItems } from '@/hooks/useItems';
-import { ItemFormData, Item } from '@shared/items';
-import { Plus, Upload, X, Save } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useItems } from "@/hooks/useItems";
+import { ItemFormData, Item } from "@shared/items";
+import { Plus, Upload, X, Save } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface ItemFormProps {
   item?: Item;
@@ -21,11 +33,11 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
   const { addItem, updateItem, isLoading } = useItems();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string>('');
+  const [imagePreview, setImagePreview] = useState<string>("");
   const [formData, setFormData] = useState<ItemFormData>({
-    name: '',
-    description: '',
-    category: 'steel',
+    name: "",
+    description: "",
+    category: "steel",
     diameter: 0,
     length: 0,
     thickness: 0,
@@ -33,13 +45,13 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
     stockQuantity: 0,
     minimumStock: 0,
     specifications: {
-      material: '',
-      grade: '',
-      pressure: '',
-      temperature: ''
+      material: "",
+      grade: "",
+      pressure: "",
+      temperature: "",
     },
-    supplier: '',
-    status: 'active'
+    supplier: "",
+    status: "active",
   });
 
   useEffect(() => {
@@ -55,8 +67,8 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
         stockQuantity: item.stockQuantity,
         minimumStock: item.minimumStock,
         specifications: item.specifications,
-        supplier: item.supplier || '',
-        status: item.status
+        supplier: item.supplier || "",
+        status: item.status,
       });
       if (item.image) {
         setImagePreview(item.image);
@@ -65,25 +77,25 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
   }, [item]);
 
   const handleInputChange = (field: string, value: any) => {
-    if (field.includes('.')) {
-      const [parent, child] = field.split('.');
-      setFormData(prev => ({
+    if (field.includes(".")) {
+      const [parent, child] = field.split(".");
+      setFormData((prev) => ({
         ...prev,
         [parent]: {
           ...(prev[parent as keyof ItemFormData] as object),
-          [child]: value
-        }
+          [child]: value,
+        },
       }));
     } else {
-      setFormData(prev => ({ ...prev, [field]: value }));
+      setFormData((prev) => ({ ...prev, [field]: value }));
     }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setFormData(prev => ({ ...prev, image: file }));
-      
+      setFormData((prev) => ({ ...prev, image: file }));
+
       // Create preview
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -95,7 +107,7 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       if (item) {
         await updateItem(item.id, formData);
@@ -106,20 +118,20 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
       } else {
         await addItem(formData);
         toast({
-          title: "Success", 
+          title: "Success",
           description: "Item added successfully!",
         });
       }
-      
+
       setOpen(false);
       onClose?.();
-      
+
       // Reset form if adding new item
       if (!item) {
         setFormData({
-          name: '',
-          description: '',
-          category: 'steel',
+          name: "",
+          description: "",
+          category: "steel",
           diameter: 0,
           length: 0,
           thickness: 0,
@@ -127,15 +139,15 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
           stockQuantity: 0,
           minimumStock: 0,
           specifications: {
-            material: '',
-            grade: '',
-            pressure: '',
-            temperature: ''
+            material: "",
+            grade: "",
+            pressure: "",
+            temperature: "",
           },
-          supplier: '',
-          status: 'active'
+          supplier: "",
+          status: "active",
         });
-        setImagePreview('');
+        setImagePreview("");
       }
     } catch (error) {
       toast({
@@ -155,22 +167,22 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {trigger || defaultTrigger}
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger || defaultTrigger}</DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-gray-900">
-            {item ? 'Edit Item' : 'Add New Item'}
+            {item ? "Edit Item" : "Add New Item"}
           </DialogTitle>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Basic Information */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg text-gray-900">Basic Information</CardTitle>
+                <CardTitle className="text-lg text-gray-900">
+                  Basic Information
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -178,26 +190,33 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
                   <Input
                     id="name"
                     value={formData.name}
-                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
                     required
                     placeholder="e.g., Steel Pipe Standard"
                   />
                 </div>
-                
+
                 <div>
                   <Label htmlFor="description">Description</Label>
                   <Textarea
                     id="description"
                     value={formData.description}
-                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("description", e.target.value)
+                    }
                     placeholder="Item description..."
                     rows={3}
                   />
                 </div>
-                
+
                 <div>
                   <Label htmlFor="category">Category *</Label>
-                  <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
+                  <Select
+                    value={formData.category}
+                    onValueChange={(value) =>
+                      handleInputChange("category", value)
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -210,10 +229,15 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
                     </SelectContent>
                   </Select>
                 </div>
-                
+
                 <div>
                   <Label htmlFor="status">Status</Label>
-                  <Select value={formData.status} onValueChange={(value) => handleInputChange('status', value)}>
+                  <Select
+                    value={formData.status}
+                    onValueChange={(value) =>
+                      handleInputChange("status", value)
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -230,7 +254,9 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
             {/* Specifications */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg text-gray-900">Specifications</CardTitle>
+                <CardTitle className="text-lg text-gray-900">
+                  Specifications
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -240,78 +266,107 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
                       id="diameter"
                       type="number"
                       value={formData.diameter}
-                      onChange={(e) => handleInputChange('diameter', parseFloat(e.target.value))}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "diameter",
+                          parseFloat(e.target.value),
+                        )
+                      }
                       required
                       min="0"
                       step="0.1"
                     />
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="length">Length (m) *</Label>
                     <Input
                       id="length"
                       type="number"
                       value={formData.length}
-                      onChange={(e) => handleInputChange('length', parseFloat(e.target.value))}
+                      onChange={(e) =>
+                        handleInputChange("length", parseFloat(e.target.value))
+                      }
                       required
                       min="0"
                       step="0.1"
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <Label htmlFor="thickness">Thickness (mm)</Label>
                   <Input
                     id="thickness"
                     type="number"
                     value={formData.thickness}
-                    onChange={(e) => handleInputChange('thickness', parseFloat(e.target.value))}
+                    onChange={(e) =>
+                      handleInputChange("thickness", parseFloat(e.target.value))
+                    }
                     min="0"
                     step="0.1"
                   />
                 </div>
-                
+
                 <div>
                   <Label htmlFor="material">Material *</Label>
                   <Input
                     id="material"
                     value={formData.specifications.material}
-                    onChange={(e) => handleInputChange('specifications.material', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "specifications.material",
+                        e.target.value,
+                      )
+                    }
                     required
                     placeholder="e.g., Carbon Steel"
                   />
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="grade">Grade</Label>
                     <Input
                       id="grade"
                       value={formData.specifications.grade}
-                      onChange={(e) => handleInputChange('specifications.grade', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "specifications.grade",
+                          e.target.value,
+                        )
+                      }
                       placeholder="e.g., Grade A"
                     />
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="pressure">Pressure Rating</Label>
                     <Input
                       id="pressure"
                       value={formData.specifications.pressure}
-                      onChange={(e) => handleInputChange('specifications.pressure', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "specifications.pressure",
+                          e.target.value,
+                        )
+                      }
                       placeholder="e.g., 300 PSI"
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <Label htmlFor="temperature">Temperature Range</Label>
                   <Input
                     id="temperature"
                     value={formData.specifications.temperature}
-                    onChange={(e) => handleInputChange('specifications.temperature', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "specifications.temperature",
+                        e.target.value,
+                      )
+                    }
                     placeholder="e.g., -20°C to 120°C"
                   />
                 </div>
@@ -321,7 +376,9 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
             {/* Pricing & Stock */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg text-gray-900">Pricing & Stock</CardTitle>
+                <CardTitle className="text-lg text-gray-900">
+                  Pricing & Stock
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -330,13 +387,15 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
                     id="price"
                     type="number"
                     value={formData.price}
-                    onChange={(e) => handleInputChange('price', parseFloat(e.target.value))}
+                    onChange={(e) =>
+                      handleInputChange("price", parseFloat(e.target.value))
+                    }
                     required
                     min="0"
                     step="0.01"
                   />
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="stockQuantity">Stock Quantity *</Label>
@@ -344,31 +403,43 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
                       id="stockQuantity"
                       type="number"
                       value={formData.stockQuantity}
-                      onChange={(e) => handleInputChange('stockQuantity', parseInt(e.target.value))}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "stockQuantity",
+                          parseInt(e.target.value),
+                        )
+                      }
                       required
                       min="0"
                     />
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="minimumStock">Minimum Stock *</Label>
                     <Input
                       id="minimumStock"
                       type="number"
                       value={formData.minimumStock}
-                      onChange={(e) => handleInputChange('minimumStock', parseInt(e.target.value))}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "minimumStock",
+                          parseInt(e.target.value),
+                        )
+                      }
                       required
                       min="0"
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <Label htmlFor="supplier">Supplier</Label>
                   <Input
                     id="supplier"
                     value={formData.supplier}
-                    onChange={(e) => handleInputChange('supplier', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("supplier", e.target.value)
+                    }
                     placeholder="e.g., SteelCorp Industries"
                   />
                 </div>
@@ -378,16 +449,23 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
             {/* Image Upload */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg text-gray-900">Item Image</CardTitle>
+                <CardTitle className="text-lg text-gray-900">
+                  Item Image
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
                   <Label htmlFor="image">Upload Image</Label>
                   <div className="mt-2">
-                    <label htmlFor="image" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                    <label
+                      htmlFor="image"
+                      className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                    >
                       <div className="flex flex-col items-center justify-center pt-5 pb-6">
                         <Upload className="h-8 w-8 mb-2 text-gray-400" />
-                        <p className="text-sm text-gray-500">Click to upload image</p>
+                        <p className="text-sm text-gray-500">
+                          Click to upload image
+                        </p>
                       </div>
                       <input
                         id="image"
@@ -399,7 +477,7 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
                     </label>
                   </div>
                 </div>
-                
+
                 {imagePreview && (
                   <div className="relative">
                     <img
@@ -413,8 +491,8 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
                       variant="destructive"
                       className="absolute top-2 right-2"
                       onClick={() => {
-                        setImagePreview('');
-                        setFormData(prev => ({ ...prev, image: undefined }));
+                        setImagePreview("");
+                        setFormData((prev) => ({ ...prev, image: undefined }));
                       }}
                     >
                       <X className="h-4 w-4" />
@@ -440,7 +518,7 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
               className="bg-red-600 hover:bg-red-700 text-white"
             >
               <Save className="h-4 w-4 mr-2" />
-              {isLoading ? 'Saving...' : (item ? 'Update Item' : 'Add Item')}
+              {isLoading ? "Saving..." : item ? "Update Item" : "Add Item"}
             </Button>
           </div>
         </form>

@@ -15,13 +15,17 @@ function StaffContent() {
           <div className="flex items-center gap-3">
             <Users className="h-8 w-8 text-red-600" />
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Staff Management</h1>
-              <p className="text-gray-600">Manage factory staff, roles, and attendance tracking</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                Staff Management
+              </h1>
+              <p className="text-gray-600">
+                Manage factory staff, roles, and attendance tracking
+              </p>
             </div>
           </div>
           <StaffForm />
         </div>
-        
+
         {/* Main Content Tabs */}
         <Tabs defaultValue="staff" className="space-y-6">
           <TabsList className="grid w-full grid-cols-3">
@@ -50,8 +54,12 @@ function StaffContent() {
           <TabsContent value="reports">
             <div className="text-center py-12">
               <BarChart3 className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Time Sheets & Reports</h3>
-              <p className="text-gray-600 mb-4">Advanced reporting features coming soon</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Time Sheets & Reports
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Advanced reporting features coming soon
+              </p>
               <p className="text-sm text-gray-500">
                 Weekly time sheets, payroll reports, and performance analytics
               </p>

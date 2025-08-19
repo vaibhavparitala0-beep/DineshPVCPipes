@@ -11,8 +11,12 @@ function OrdersContent() {
         <div className="flex items-center gap-3">
           <Truck className="h-8 w-8 text-red-600" />
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Order Tracking</h1>
-            <p className="text-gray-600">Track and manage pipe orders by priority and status</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Order Tracking
+            </h1>
+            <p className="text-gray-600">
+              Track and manage pipe orders by priority and status
+            </p>
           </div>
         </div>
 

@@ -1,21 +1,37 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { useStaff } from '@/hooks/useStaff';
-import { Staff, StaffRole, Department, EmploymentStatus } from '@shared/staff';
-import StaffForm from './StaffForm';
-import StaffDetailDialog from './StaffDetailDialog';
-import { 
-  Search, 
-  Filter, 
-  Users, 
-  Edit, 
-  Trash2, 
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useStaff } from "@/hooks/useStaff";
+import { Staff, StaffRole, Department, EmploymentStatus } from "@shared/staff";
+import StaffForm from "./StaffForm";
+import StaffDetailDialog from "./StaffDetailDialog";
+import {
+  Search,
+  Filter,
+  Users,
+  Edit,
+  Trash2,
   MoreHorizontal,
   Eye,
   Clock,
@@ -26,31 +42,33 @@ import {
   Mail,
   UserCheck,
   UserX,
-  Coffee
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useToast } from '@/hooks/use-toast';
+  Coffee,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 const StaffList = () => {
-  const { 
-    filteredStaff, 
-    filters, 
-    setFilters, 
-    selectedStaff, 
-    selectStaff, 
-    selectAllStaff, 
+  const {
+    filteredStaff,
+    filters,
+    setFilters,
+    selectedStaff,
+    selectStaff,
+    selectAllStaff,
     clearSelection,
     stats,
     deleteStaff,
     updateStaffStatus,
     clockIn,
     clockOut,
-    getTodayAttendance
+    getTodayAttendance,
   } = useStaff();
-  
+
   const { toast } = useToast();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedStaffMember, setSelectedStaffMember] = useState<Staff | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedStaffMember, setSelectedStaffMember] = useState<Staff | null>(
+    null,
+  );
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -58,15 +76,15 @@ const StaffList = () => {
   };
 
   const handleFilterChange = (key: string, value: string) => {
-    if (key === 'role' || key === 'department' || key === 'status') {
-      setFilters({ 
-        ...filters, 
-        [key]: value === 'all' ? undefined : [value] 
+    if (key === "role" || key === "department" || key === "status") {
+      setFilters({
+        ...filters,
+        [key]: value === "all" ? undefined : [value],
       });
     } else {
-      setFilters({ 
-        ...filters, 
-        [key]: value === 'all' ? undefined : value 
+      setFilters({
+        ...filters,
+        [key]: value === "all" ? undefined : value,
       });
     }
   };
@@ -87,7 +105,10 @@ const StaffList = () => {
     }
   };
 
-  const handleStatusChange = async (staffId: string, newStatus: EmploymentStatus) => {
+  const handleStatusChange = async (
+    staffId: string,
+    newStatus: EmploymentStatus,
+  ) => {
     try {
       await updateStaffStatus(staffId, newStatus);
       toast({
@@ -105,7 +126,7 @@ const StaffList = () => {
 
   const handleClockIn = async (staffId: string) => {
     try {
-      await clockIn(staffId, 'Factory Floor');
+      await clockIn(staffId, "Factory Floor");
       toast({
         title: "Success",
         description: "Clock in recorded successfully.",
@@ -137,41 +158,41 @@ const StaffList = () => {
 
   const getStatusColor = (status: EmploymentStatus) => {
     switch (status) {
-      case 'active':
-        return 'bg-green-100 text-green-800 border-green-200';
-      case 'inactive':
-        return 'bg-gray-100 text-gray-800 border-gray-200';
-      case 'on_leave':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'terminated':
-        return 'bg-red-100 text-red-800 border-red-200';
+      case "active":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "inactive":
+        return "bg-gray-100 text-gray-800 border-gray-200";
+      case "on_leave":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "terminated":
+        return "bg-red-100 text-red-800 border-red-200";
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getRoleColor = (role: StaffRole) => {
     switch (role) {
-      case 'admin':
-        return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'manager':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'supervisor':
-        return 'bg-indigo-100 text-indigo-800 border-indigo-200';
-      case 'quality_inspector':
-        return 'bg-orange-100 text-orange-800 border-orange-200';
+      case "admin":
+        return "bg-purple-100 text-purple-800 border-purple-200";
+      case "manager":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "supervisor":
+        return "bg-indigo-100 text-indigo-800 border-indigo-200";
+      case "quality_inspector":
+        return "bg-orange-100 text-orange-800 border-orange-200";
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getDepartmentIcon = (department: Department) => {
     switch (department) {
-      case 'production':
+      case "production":
         return <Building className="h-4 w-4" />;
-      case 'quality_control':
+      case "quality_control":
         return <Shield className="h-4 w-4" />;
-      case 'administration':
+      case "administration":
         return <Users className="h-4 w-4" />;
       default:
         return <Building className="h-4 w-4" />;
@@ -179,25 +200,25 @@ const StaffList = () => {
   };
 
   const formatSalary = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
   const todayAttendance = getTodayAttendance();
   const isStaffClockedIn = (staffId: string) => {
-    const record = todayAttendance.find(r => r.staffId === staffId);
+    const record = todayAttendance.find((r) => r.staffId === staffId);
     return record && record.clockIn && !record.clockOut;
   };
 
@@ -211,43 +232,51 @@ const StaffList = () => {
               <Users className="h-4 w-4 text-blue-600" />
               <div>
                 <p className="text-sm text-gray-600">Total Staff</p>
-                <p className="text-xl font-bold text-gray-900">{stats.totalStaff}</p>
+                <p className="text-xl font-bold text-gray-900">
+                  {stats.totalStaff}
+                </p>
               </div>
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
               <UserCheck className="h-4 w-4 text-green-600" />
               <div>
                 <p className="text-sm text-gray-600">Active</p>
-                <p className="text-xl font-bold text-gray-900">{stats.activeStaff}</p>
+                <p className="text-xl font-bold text-gray-900">
+                  {stats.activeStaff}
+                </p>
               </div>
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
               <Clock className="h-4 w-4 text-blue-600" />
               <div>
                 <p className="text-sm text-gray-600">Present Today</p>
-                <p className="text-xl font-bold text-gray-900">{stats.presentToday}</p>
+                <p className="text-xl font-bold text-gray-900">
+                  {stats.presentToday}
+                </p>
               </div>
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
               <Coffee className="h-4 w-4 text-yellow-600" />
               <div>
                 <p className="text-sm text-gray-600">On Leave</p>
-                <p className="text-xl font-bold text-gray-900">{stats.onLeave}</p>
+                <p className="text-xl font-bold text-gray-900">
+                  {stats.onLeave}
+                </p>
               </div>
             </div>
           </CardContent>
@@ -273,8 +302,11 @@ const StaffList = () => {
                 className="pl-9"
               />
             </div>
-            
-            <Select value={filters.role?.[0] || 'all'} onValueChange={(value) => handleFilterChange('role', value)}>
+
+            <Select
+              value={filters.role?.[0] || "all"}
+              onValueChange={(value) => handleFilterChange("role", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="All Roles" />
               </SelectTrigger>
@@ -284,14 +316,21 @@ const StaffList = () => {
                 <SelectItem value="manager">Manager</SelectItem>
                 <SelectItem value="supervisor">Supervisor</SelectItem>
                 <SelectItem value="production_lead">Production Lead</SelectItem>
-                <SelectItem value="machine_operator">Machine Operator</SelectItem>
-                <SelectItem value="quality_inspector">Quality Inspector</SelectItem>
+                <SelectItem value="machine_operator">
+                  Machine Operator
+                </SelectItem>
+                <SelectItem value="quality_inspector">
+                  Quality Inspector
+                </SelectItem>
                 <SelectItem value="warehouse_staff">Warehouse Staff</SelectItem>
                 <SelectItem value="maintenance">Maintenance</SelectItem>
               </SelectContent>
             </Select>
-            
-            <Select value={filters.department?.[0] || 'all'} onValueChange={(value) => handleFilterChange('department', value)}>
+
+            <Select
+              value={filters.department?.[0] || "all"}
+              onValueChange={(value) => handleFilterChange("department", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="All Departments" />
               </SelectTrigger>
@@ -308,8 +347,11 @@ const StaffList = () => {
                 <SelectItem value="finance">Finance</SelectItem>
               </SelectContent>
             </Select>
-            
-            <Select value={filters.status?.[0] || 'all'} onValueChange={(value) => handleFilterChange('status', value)}>
+
+            <Select
+              value={filters.status?.[0] || "all"}
+              onValueChange={(value) => handleFilterChange("status", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="All Status" />
               </SelectTrigger>
@@ -321,11 +363,11 @@ const StaffList = () => {
                 <SelectItem value="terminated">Terminated</SelectItem>
               </SelectContent>
             </Select>
-            
+
             <Button
               variant="outline"
               onClick={() => {
-                setSearchTerm('');
+                setSearchTerm("");
                 setFilters({});
               }}
             >
@@ -342,7 +384,8 @@ const StaffList = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <span className="text-sm font-medium text-blue-900">
-                  {selectedStaff.length} staff member{selectedStaff.length !== 1 ? 's' : ''} selected
+                  {selectedStaff.length} staff member
+                  {selectedStaff.length !== 1 ? "s" : ""} selected
                 </span>
                 <Button size="sm" variant="outline" onClick={clearSelection}>
                   Clear Selection
@@ -369,7 +412,8 @@ const StaffList = () => {
         <div className="flex items-center gap-2">
           <Users className="h-5 w-5 text-gray-600" />
           <span className="text-sm text-gray-600">
-            {filteredStaff.length} staff member{filteredStaff.length !== 1 ? 's' : ''} found
+            {filteredStaff.length} staff member
+            {filteredStaff.length !== 1 ? "s" : ""} found
           </span>
         </div>
       </div>
@@ -383,23 +427,40 @@ const StaffList = () => {
                 <tr>
                   <th className="text-left py-3 px-4">
                     <Checkbox
-                      checked={selectedStaff.length === filteredStaff.length && filteredStaff.length > 0}
+                      checked={
+                        selectedStaff.length === filteredStaff.length &&
+                        filteredStaff.length > 0
+                      }
                       onCheckedChange={selectAllStaff}
                     />
                   </th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Staff Member</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Role & Department</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Contact</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Employment</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Attendance</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Status</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Actions</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">
+                    Staff Member
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">
+                    Role & Department
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">
+                    Contact
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">
+                    Employment
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">
+                    Attendance
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">
+                    Status
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-900">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {filteredStaff.map((staffMember) => {
                   const isClockedIn = isStaffClockedIn(staffMember.id);
-                  
+
                   return (
                     <tr key={staffMember.id} className="hover:bg-gray-50">
                       <td className="py-4 px-4">
@@ -408,7 +469,7 @@ const StaffList = () => {
                           onCheckedChange={() => selectStaff(staffMember.id)}
                         />
                       </td>
-                      
+
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-3">
                           {staffMember.avatar ? (
@@ -426,29 +487,37 @@ const StaffList = () => {
                             <p className="font-medium text-gray-900">
                               {staffMember.firstName} {staffMember.lastName}
                             </p>
-                            <p className="text-sm text-gray-600">{staffMember.employeeId}</p>
-                            <p className="text-xs text-gray-500">{staffMember.jobTitle}</p>
+                            <p className="text-sm text-gray-600">
+                              {staffMember.employeeId}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {staffMember.jobTitle}
+                            </p>
                           </div>
                         </div>
                       </td>
-                      
+
                       <td className="py-4 px-4">
                         <div className="space-y-1">
                           <Badge className={getRoleColor(staffMember.role)}>
-                            {staffMember.role.replace('_', ' ').toUpperCase()}
+                            {staffMember.role.replace("_", " ").toUpperCase()}
                           </Badge>
                           <div className="flex items-center gap-1 text-sm text-gray-600">
                             {getDepartmentIcon(staffMember.department)}
-                            <span>{staffMember.department.replace('_', ' ')}</span>
+                            <span>
+                              {staffMember.department.replace("_", " ")}
+                            </span>
                           </div>
                         </div>
                       </td>
-                      
+
                       <td className="py-4 px-4">
                         <div className="space-y-1">
                           <div className="flex items-center gap-1 text-sm text-gray-600">
                             <Mail className="h-3 w-3" />
-                            <span className="truncate max-w-xs">{staffMember.email}</span>
+                            <span className="truncate max-w-xs">
+                              {staffMember.email}
+                            </span>
                           </div>
                           <div className="flex items-center gap-1 text-sm text-gray-600">
                             <Phone className="h-3 w-3" />
@@ -456,15 +525,21 @@ const StaffList = () => {
                           </div>
                         </div>
                       </td>
-                      
+
                       <td className="py-4 px-4">
                         <div className="text-sm">
-                          <p className="font-medium text-gray-900">{formatSalary(staffMember.salary)}</p>
-                          <p className="text-gray-600">Hired: {formatDate(staffMember.hireDate)}</p>
-                          <p className="text-gray-500">{staffMember.shift} shift</p>
+                          <p className="font-medium text-gray-900">
+                            {formatSalary(staffMember.salary)}
+                          </p>
+                          <p className="text-gray-600">
+                            Hired: {formatDate(staffMember.hireDate)}
+                          </p>
+                          <p className="text-gray-500">
+                            {staffMember.shift} shift
+                          </p>
                         </div>
                       </td>
-                      
+
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-2">
                           {isClockedIn ? (
@@ -483,7 +558,7 @@ const StaffList = () => {
                               variant="outline"
                               onClick={() => handleClockIn(staffMember.id)}
                               className="text-green-600 border-green-200 hover:bg-green-50"
-                              disabled={staffMember.status !== 'active'}
+                              disabled={staffMember.status !== "active"}
                             >
                               <UserCheck className="h-3 w-3 mr-1" />
                               Clock In
@@ -491,13 +566,13 @@ const StaffList = () => {
                           )}
                         </div>
                       </td>
-                      
+
                       <td className="py-4 px-4">
                         <Badge className={getStatusColor(staffMember.status)}>
-                          {staffMember.status.replace('_', ' ').toUpperCase()}
+                          {staffMember.status.replace("_", " ").toUpperCase()}
                         </Badge>
                       </td>
-                      
+
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-2">
                           <Button
@@ -508,27 +583,40 @@ const StaffList = () => {
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
-                          
+
                           <StaffForm
                             staff={staffMember}
                             trigger={
-                              <Button size="sm" variant="outline" className="h-8 w-8 p-0">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="h-8 w-8 p-0"
+                              >
                                 <Edit className="h-4 w-4" />
                               </Button>
                             }
                           />
-                          
+
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
-                              <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                              >
                                 <Trash2 className="h-4 w-4" />
                               </Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
-                                <AlertDialogTitle>Remove Staff Member</AlertDialogTitle>
+                                <AlertDialogTitle>
+                                  Remove Staff Member
+                                </AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  Are you sure you want to remove "{staffMember.firstName} {staffMember.lastName}" from the staff? This action cannot be undone.
+                                  Are you sure you want to remove "
+                                  {staffMember.firstName} {staffMember.lastName}
+                                  " from the staff? This action cannot be
+                                  undone.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
@@ -547,7 +635,7 @@ const StaffList = () => {
                     </tr>
                   );
                 })}
-                
+
                 {filteredStaff.length === 0 && (
                   <tr>
                     <td colSpan={8} className="py-12 text-center">
