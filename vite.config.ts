@@ -16,7 +16,14 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist/spa",
   },
-  plugins: [react(), expressPlugin()],
+  plugins: [
+    react({
+      // Configure Fast Refresh to avoid export compatibility issues
+      include: "**/*.{jsx,tsx}",
+      exclude: ["**/node_modules/**"],
+    }),
+    expressPlugin()
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./client"),
