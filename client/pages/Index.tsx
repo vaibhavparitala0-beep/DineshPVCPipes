@@ -1,6 +1,8 @@
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   ShoppingCart,
   Truck,
@@ -9,7 +11,14 @@ import {
   Package,
   Clock,
   TrendingUp,
+  Plus,
+  AlertTriangle,
+  Bell,
+  Eye,
+  Edit,
+  ArrowRight,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Index() {
   // Mock data for demonstration
