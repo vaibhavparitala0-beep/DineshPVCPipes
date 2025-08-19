@@ -30,8 +30,11 @@ import {
   Eye,
   Edit,
   Archive,
+  Download,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { exportOrdersReport, exportSelectedOrders } from "@/lib/pdfExport";
 
 const OrdersList = () => {
   const {
@@ -145,6 +148,29 @@ const OrdersList = () => {
     });
   };
 
+  const handleExportSelected = () => {
+    if (selectedOrders.length === 0) {
+      alert('Please select orders to export');
+      return;
+    }
+    exportSelectedOrders(selectedOrders, filteredOrders);
+  };
+
+  const handleExportAll = () => {
+    const ordersToExport = getTabOrders(activeTab);
+    if (ordersToExport.length === 0) {
+      alert('No orders to export in current view');
+      return;
+    }
+    exportOrdersReport(ordersToExport, {
+      includeStats: true,
+      dateRange: filters.dateFrom && filters.dateTo ? {
+        from: filters.dateFrom,
+        to: filters.dateTo
+      } : undefined
+    });
+  };
+
   const getStatusIcon = (status: OrderStatus) => {
     switch (status) {
       case "pending":
@@ -241,10 +267,35 @@ const OrdersList = () => {
       {/* Search and Filters */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Search & Filters
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2">
+              <Filter className="h-5 w-5" />
+              Search & Filters
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleExportAll}
+                className="flex items-center gap-2"
+              >
+                <Download className="h-4 w-4" />
+                Export Current View
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const allOrders = getTabOrders('all');
+                  exportOrdersReport(allOrders, { includeStats: true });
+                }}
+                className="flex items-center gap-2"
+              >
+                <FileText className="h-4 w-4" />
+                Export All Orders
+              </Button>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -354,7 +405,13 @@ const OrdersList = () => {
                     </Button>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button size="sm" variant="outline">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={handleExportSelected}
+                      className="flex items-center gap-1"
+                    >
+                      <Download className="h-3 w-3" />
                       Export Selected
                     </Button>
                     <Button size="sm" variant="outline">
