@@ -51,19 +51,13 @@ const Navigation = ({
           : "-translate-x-full lg:translate-x-0",
       )}
     >
-      <div className="p-4 lg:p-6 border-b border-gray-200">
-        <div className="flex items-center gap-2">
-          <Factory className="h-6 w-6 lg:h-8 lg:w-8 text-red-600" />
-          <div className="hidden sm:block">
-            <h1 className="text-lg lg:text-xl font-bold text-gray-900">
-              Admin Dashboard
-            </h1>
-            <p className="text-xs lg:text-sm text-gray-600">
-              Pipes Manufacturing
-            </p>
-          </div>
-        </div>
-      </div>
+     <div className="p-4 lg:p-6 border-b border-gray-200">
+  <div className="flex items-center">
+    <h1 className="text-lg lg:text-xl font-bold text-gray-900">
+      Admin Dashboard
+    </h1>
+  </div>
+</div>
 
       <nav className="mt-6">
         {navItems.map((item) => {
