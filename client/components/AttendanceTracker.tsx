@@ -165,6 +165,20 @@ const AttendanceTracker = () => {
     });
   };
 
+  const handleExportAttendance = () => {
+    if (staff.length === 0) {
+      alert('No staff data available to export');
+      return;
+    }
+    exportStaffReport(staff, attendanceRecords, {
+      includeStats: true,
+      dateRange: dateRange.from && dateRange.to ? {
+        from: dateRange.from.toISOString(),
+        to: dateRange.to.toISOString()
+      } : undefined
+    });
+  };
+
   const calculateTotalHours = (clockIn: string, clockOut?: string) => {
     if (!clockOut) return 0;
     const start = new Date(clockIn);
