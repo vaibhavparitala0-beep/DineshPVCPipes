@@ -438,7 +438,13 @@ const StaffList = () => {
                 </Button>
               </div>
               <div className="flex items-center gap-2">
-                <Button size="sm" variant="outline">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleExportSelected}
+                  className="flex items-center gap-1"
+                >
+                  <Download className="h-3 w-3" />
                   Export Selected
                 </Button>
                 <Button size="sm" variant="outline">
