@@ -70,7 +70,7 @@ const ItemForm = ({ item, onClose, trigger }: ItemFormProps) => {
       setFormData(prev => ({
         ...prev,
         [parent]: {
-          ...prev[parent as keyof ItemFormData],
+          ...(prev[parent as keyof ItemFormData] as object),
           [child]: value
         }
       }));
