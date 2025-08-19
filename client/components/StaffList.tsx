@@ -43,8 +43,11 @@ import {
   UserCheck,
   UserX,
   Coffee,
+  FileText,
+  Download,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { exportStaffReport } from "@/lib/pdfExport";
 import { useToast } from "@/hooks/use-toast";
 
 const StaffList = () => {
@@ -103,6 +106,26 @@ const StaffList = () => {
         variant: "destructive",
       });
     }
+  };
+
+  const handleExportStaff = () => {
+    const staffToExport = filteredStaff;
+    if (staffToExport.length === 0) {
+      alert("No staff members to export");
+      return;
+    }
+    exportStaffReport(staffToExport, undefined, { includeStats: true });
+  };
+
+  const handleExportSelected = () => {
+    if (selectedStaff.length === 0) {
+      alert("Please select staff members to export");
+      return;
+    }
+    const selectedStaffData = filteredStaff.filter((staff) =>
+      selectedStaff.includes(staff.id),
+    );
+    exportStaffReport(selectedStaffData, undefined, { includeStats: true });
   };
 
   const handleStatusChange = async (
@@ -286,10 +309,35 @@ const StaffList = () => {
       {/* Search and Filters */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Search & Filters
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2">
+              <Filter className="h-5 w-5" />
+              Search & Filters
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleExportStaff}
+                className="flex items-center gap-2"
+              >
+                <Download className="h-4 w-4" />
+                Export Staff Report
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  // Export staff with attendance data - placeholder for now
+                  exportStaffReport(filteredStaff, [], { includeStats: true });
+                }}
+                className="flex items-center gap-2"
+              >
+                <FileText className="h-4 w-4" />
+                Export with Attendance
+              </Button>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -392,7 +440,13 @@ const StaffList = () => {
                 </Button>
               </div>
               <div className="flex items-center gap-2">
-                <Button size="sm" variant="outline">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleExportSelected}
+                  className="flex items-center gap-1"
+                >
+                  <Download className="h-3 w-3" />
                   Export Selected
                 </Button>
                 <Button size="sm" variant="outline">
@@ -472,7 +526,8 @@ const StaffList = () => {
 
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-3">
-                          {staffMember.avatar ? (
+                          {staffMember.avatar &&
+                          typeof staffMember.avatar === "string" ? (
                             <img
                               src={staffMember.avatar}
                               alt={`${staffMember.firstName} ${staffMember.lastName}`}

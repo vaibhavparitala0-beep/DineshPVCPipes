@@ -255,7 +255,7 @@ const StaffDetailDialog = ({
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="flex items-center gap-4">
-                    {staff.avatar ? (
+                    {staff.avatar && typeof staff.avatar === "string" ? (
                       <img
                         src={staff.avatar}
                         alt={`${staff.firstName} ${staff.lastName}`}

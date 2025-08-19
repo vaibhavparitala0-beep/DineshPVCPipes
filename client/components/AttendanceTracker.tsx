@@ -43,8 +43,10 @@ import {
   BarChart3,
   TrendingUp,
   Users,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { exportStaffReport } from "@/lib/pdfExport";
 
 const AttendanceTracker = () => {
   const {
@@ -160,6 +162,16 @@ const AttendanceTracker = () => {
       year: "numeric",
       month: "short",
       day: "numeric",
+    });
+  };
+
+  const handleExportAttendance = () => {
+    if (staff.length === 0) {
+      alert("No staff data available to export");
+      return;
+    }
+    exportStaffReport(staff, attendanceRecords, {
+      includeStats: true,
     });
   };
 
@@ -344,6 +356,15 @@ const AttendanceTracker = () => {
           </TabsList>
 
           <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportAttendance}
+              className="flex items-center gap-2"
+            >
+              <FileText className="h-4 w-4" />
+              Export Attendance Report
+            </Button>
             <Dialog open={showAddRecord} onOpenChange={setShowAddRecord}>
               <DialogTrigger asChild>
                 <Button className="bg-red-600 hover:bg-red-700">
@@ -551,7 +572,7 @@ const AttendanceTracker = () => {
                       className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
                     >
                       <div className="flex items-center gap-4">
-                        {member.avatar ? (
+                        {member.avatar && typeof member.avatar === "string" ? (
                           <img
                             src={member.avatar}
                             alt={`${member.firstName} ${member.lastName}`}
