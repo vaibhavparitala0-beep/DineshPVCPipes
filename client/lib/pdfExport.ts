@@ -131,7 +131,7 @@ export class PDFExporter {
       order.assignedTo || 'Unassigned'
     ]);
 
-    this.doc.autoTable({
+    autoTable(this.doc, {
       startY: yPosition + 10,
       head: [['Order #', 'Customer', 'Company', 'Items', 'Status', 'Priority', 'Total', 'Date', 'Assigned To']],
       body: tableData,
@@ -214,7 +214,7 @@ export class PDFExporter {
       ['Average Order Value', this.formatCurrency(stats.averageOrderValue)]
     ];
 
-    this.doc.autoTable({
+    autoTable(this.doc, {
       startY: yPosition,
       body: statsData,
       theme: 'plain',
@@ -257,7 +257,7 @@ export class PDFExporter {
       this.formatDate(member.hireDate)
     ]);
 
-    this.doc.autoTable({
+    autoTable(this.doc, {
       startY: yPosition + 10,
       head: [['Employee ID', 'Name', 'Email', 'Department', 'Role', 'Job Title', 'Salary', 'Status', 'Hire Date']],
       body: tableData,
@@ -330,7 +330,7 @@ export class PDFExporter {
       ['Average Salary', this.formatCurrency(stats.avgSalary)]
     ];
 
-    this.doc.autoTable({
+    autoTable(this.doc, {
       startY: yPosition,
       body: statsData,
       theme: 'plain',
@@ -386,7 +386,7 @@ export class PDFExporter {
       ];
     });
 
-    this.doc.autoTable({
+    autoTable(this.doc, {
       startY: yPosition,
       head: [['Employee', 'ID', 'Days Present', 'Days Absent', 'Total Hours', 'Late Days']],
       body: attendanceData,
