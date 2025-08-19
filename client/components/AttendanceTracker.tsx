@@ -360,6 +360,15 @@ const AttendanceTracker = () => {
           </TabsList>
 
           <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportAttendance}
+              className="flex items-center gap-2"
+            >
+              <FileText className="h-4 w-4" />
+              Export Attendance Report
+            </Button>
             <Dialog open={showAddRecord} onOpenChange={setShowAddRecord}>
               <DialogTrigger asChild>
                 <Button className="bg-red-600 hover:bg-red-700">
