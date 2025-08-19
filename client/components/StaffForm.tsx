@@ -103,7 +103,7 @@ const StaffForm = ({ staff, onClose, trigger }: StaffFormProps) => {
         notes: staff.notes || "",
       });
       if (staff.avatar) {
-        if (typeof staff.avatar === 'string') {
+        if (typeof staff.avatar === "string") {
           setAvatarPreview(staff.avatar);
         }
       }

@@ -21,8 +21,8 @@ const mockOrders: Order[] = [
         city: "Anytown",
         state: "CA",
         zipCode: "12345",
-        country: "USA"
-      }
+        country: "USA",
+      },
     },
     items: [
       {
@@ -33,39 +33,39 @@ const mockOrders: Order[] = [
         diameter: 6,
         length: 100,
         quantity: 50,
-        unitPrice: 25.00,
-        totalPrice: 1250.00,
+        unitPrice: 25.0,
+        totalPrice: 1250.0,
         specifications: {
           material: "Carbon Steel",
           grade: "A106",
-          pressure: "200 PSI"
-        }
-      }
+          pressure: "200 PSI",
+        },
+      },
     ],
     status: "processing" as OrderStatus,
     priority: "high" as Priority,
     paymentStatus: "paid",
-    totalAmount: 1250.00,
-    subtotal: 1200.00,
-    tax: 50.00,
-    shippingCost: 0.00,
+    totalAmount: 1250.0,
+    subtotal: 1200.0,
+    tax: 50.0,
+    shippingCost: 0.0,
     shipping: {
       method: "Standard",
       carrier: "FedEx",
       address: {
         street: "123 Main St",
-        city: "Anytown", 
+        city: "Anytown",
         state: "CA",
         zipCode: "12345",
-        country: "USA"
+        country: "USA",
       },
-      cost: 0.00
+      cost: 0.0,
     },
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     statusHistory: [],
-    assignedTo: "Mike Wilson"
-  }
+    assignedTo: "Mike Wilson",
+  },
 ];
 
 const mockStaff: Staff[] = [
@@ -87,25 +87,25 @@ const mockStaff: Staff[] = [
       city: "Worktown",
       state: "CA",
       zipCode: "12346",
-      country: "USA"
+      country: "USA",
     },
     emergencyContact: {
       name: "Jane Smith",
       relationship: "Spouse",
-      phone: "555-0124"
+      phone: "555-0124",
     },
     shift: "day",
     workingHours: {
       startTime: "08:00",
       endTime: "17:00",
-      breakDuration: 60
+      breakDuration: 60,
     },
     roles: [],
     isActive: true,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    createdBy: "admin"
-  }
+    createdBy: "admin",
+  },
 ];
 
 const PDFExportTest = () => {
@@ -123,16 +123,16 @@ const PDFExportTest = () => {
       {
         id: "1",
         staffId: "1",
-        date: new Date().toISOString().split('T')[0],
+        date: new Date().toISOString().split("T")[0],
         clockIn: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
         clockOut: new Date().toISOString(),
         status: "present" as const,
         totalHours: 8,
         overtimeHours: 0,
-        isManualEntry: false
-      }
+        isManualEntry: false,
+      },
     ];
-    
+
     exportStaffReport(mockStaff, mockAttendance, { includeStats: true });
   };
 
@@ -154,7 +154,7 @@ const PDFExportTest = () => {
             <Download className="h-4 w-4" />
             Test Orders Export
           </Button>
-          
+
           <Button
             onClick={handleTestStaffExport}
             className="flex items-center gap-2"
@@ -163,7 +163,7 @@ const PDFExportTest = () => {
             <Download className="h-4 w-4" />
             Test Staff Export
           </Button>
-          
+
           <Button
             onClick={handleTestStaffWithAttendance}
             className="flex items-center gap-2"
@@ -173,12 +173,13 @@ const PDFExportTest = () => {
             Test Staff + Attendance
           </Button>
         </div>
-        
+
         <div className="bg-gray-50 p-4 rounded-lg">
           <h4 className="font-medium text-gray-900 mb-2">Test Results</h4>
           <p className="text-sm text-gray-600">
-            Click the buttons above to test PDF generation. Each button will download a PDF file
-            with sample data to verify the export functionality is working correctly.
+            Click the buttons above to test PDF generation. Each button will
+            download a PDF file with sample data to verify the export
+            functionality is working correctly.
           </p>
         </div>
       </CardContent>

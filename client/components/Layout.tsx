@@ -20,7 +20,11 @@ const Layout = ({ children }: LayoutProps) => {
         className="fixed top-4 left-4 z-50 lg:hidden bg-white shadow-md"
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       >
-        {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        {isMobileMenuOpen ? (
+          <X className="h-6 w-6" />
+        ) : (
+          <Menu className="h-6 w-6" />
+        )}
       </Button>
 
       {/* Notification Center - Mobile */}

@@ -150,7 +150,7 @@ const OrdersList = () => {
 
   const handleExportSelected = () => {
     if (selectedOrders.length === 0) {
-      alert('Please select orders to export');
+      alert("Please select orders to export");
       return;
     }
     exportSelectedOrders(selectedOrders, filteredOrders);
@@ -159,15 +159,18 @@ const OrdersList = () => {
   const handleExportAll = () => {
     const ordersToExport = getTabOrders(activeTab);
     if (ordersToExport.length === 0) {
-      alert('No orders to export in current view');
+      alert("No orders to export in current view");
       return;
     }
     exportOrdersReport(ordersToExport, {
       includeStats: true,
-      dateRange: filters.dateFrom && filters.dateTo ? {
-        from: filters.dateFrom,
-        to: filters.dateTo
-      } : undefined
+      dateRange:
+        filters.dateFrom && filters.dateTo
+          ? {
+              from: filters.dateFrom,
+              to: filters.dateTo,
+            }
+          : undefined,
     });
   };
 
@@ -286,7 +289,7 @@ const OrdersList = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  const allOrders = getTabOrders('all');
+                  const allOrders = getTabOrders("all");
                   exportOrdersReport(allOrders, { includeStats: true });
                 }}
                 className="flex items-center gap-2"

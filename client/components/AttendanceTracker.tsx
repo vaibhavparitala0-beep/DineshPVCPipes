@@ -167,11 +167,11 @@ const AttendanceTracker = () => {
 
   const handleExportAttendance = () => {
     if (staff.length === 0) {
-      alert('No staff data available to export');
+      alert("No staff data available to export");
       return;
     }
     exportStaffReport(staff, attendanceRecords, {
-      includeStats: true
+      includeStats: true,
     });
   };
 
@@ -572,7 +572,7 @@ const AttendanceTracker = () => {
                       className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
                     >
                       <div className="flex items-center gap-4">
-                        {member.avatar && typeof member.avatar === 'string' ? (
+                        {member.avatar && typeof member.avatar === "string" ? (
                           <img
                             src={member.avatar}
                             alt={`${member.firstName} ${member.lastName}`}

@@ -94,7 +94,9 @@ export default function Index() {
                 onClick={refreshData}
                 disabled={loading}
               >
-                <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                <RefreshCw
+                  className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`}
+                />
                 Refresh
               </Button>
             </div>
@@ -104,13 +106,26 @@ export default function Index() {
         {/* Alerts Section */}
         <div className="space-y-4">
           {/* Low Stock Alert */}
-          {lowStockItems.filter(item => item.currentStock <= item.minimumStock * 0.5).length > 0 && (
+          {lowStockItems.filter(
+            (item) => item.currentStock <= item.minimumStock * 0.5,
+          ).length > 0 && (
             <Alert className="border-amber-200 bg-amber-50">
               <AlertTriangle className="h-4 w-4 text-amber-600" />
-              <AlertTitle className="text-amber-800">Critical Stock Alert</AlertTitle>
+              <AlertTitle className="text-amber-800">
+                Critical Stock Alert
+              </AlertTitle>
               <AlertDescription className="text-amber-700">
-                {lowStockItems.filter(item => item.currentStock <= item.minimumStock * 0.5).length} item(s) are critically low on stock and need immediate restocking.
-                <Link to="/items" className="ml-2 text-amber-800 underline hover:text-amber-900">
+                {
+                  lowStockItems.filter(
+                    (item) => item.currentStock <= item.minimumStock * 0.5,
+                  ).length
+                }{" "}
+                item(s) are critically low on stock and need immediate
+                restocking.
+                <Link
+                  to="/items"
+                  className="ml-2 text-amber-800 underline hover:text-amber-900"
+                >
                   Manage Inventory →
                 </Link>
               </AlertDescription>
@@ -121,10 +136,16 @@ export default function Index() {
           {newOrders.length > 0 && (
             <Alert className="border-blue-200 bg-blue-50">
               <Bell className="h-4 w-4 text-blue-600" />
-              <AlertTitle className="text-blue-800">New Orders ({newOrders.length})</AlertTitle>
+              <AlertTitle className="text-blue-800">
+                New Orders ({newOrders.length})
+              </AlertTitle>
               <AlertDescription className="text-blue-700">
-                You have {newOrders.length} new order(s) in the last 24 hours that require attention.
-                <Link to="/orders" className="ml-2 text-blue-800 underline hover:text-blue-900">
+                You have {newOrders.length} new order(s) in the last 24 hours
+                that require attention.
+                <Link
+                  to="/orders"
+                  className="ml-2 text-blue-800 underline hover:text-blue-900"
+                >
                   View Orders →
                 </Link>
               </AlertDescription>
@@ -281,7 +302,10 @@ export default function Index() {
                     <Bell className="h-5 w-5 text-blue-600" />
                     New Orders (24h)
                   </div>
-                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                  <Badge
+                    variant="secondary"
+                    className="bg-blue-100 text-blue-800"
+                  >
                     {newOrders.length}
                   </Badge>
                 </CardTitle>
@@ -317,7 +341,10 @@ export default function Index() {
                         <span className="text-sm font-bold text-green-600">
                           {order.amount}
                         </span>
-                        <Button size="sm" className="h-6 bg-blue-600 hover:bg-blue-700">
+                        <Button
+                          size="sm"
+                          className="h-6 bg-blue-600 hover:bg-blue-700"
+                        >
                           <Eye className="h-3 w-3 mr-1" />
                           View
                         </Button>
@@ -339,7 +366,10 @@ export default function Index() {
                     <AlertTriangle className="h-5 w-5 text-amber-600" />
                     Low Stock Items
                   </div>
-                  <Badge variant="secondary" className="bg-amber-100 text-amber-800">
+                  <Badge
+                    variant="secondary"
+                    className="bg-amber-100 text-amber-800"
+                  >
                     {lowStockItems.length}
                   </Badge>
                 </CardTitle>
@@ -418,7 +448,9 @@ export default function Index() {
                         <p className="text-xs lg:text-sm text-gray-700 font-medium">
                           {delivery.customer}
                         </p>
-                        <p className="text-xs text-gray-600">{delivery.items}</p>
+                        <p className="text-xs text-gray-600">
+                          {delivery.items}
+                        </p>
                         <div className="flex items-center gap-2 mt-2">
                           <Clock className="h-3 w-3 text-gray-400" />
                           <span className="text-xs text-gray-500">

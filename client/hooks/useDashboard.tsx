@@ -173,7 +173,9 @@ export const useDashboard = () => {
     },
   ]);
 
-  const [completedDeliveries, setCompletedDeliveries] = useState<CompletedDelivery[]>([
+  const [completedDeliveries, setCompletedDeliveries] = useState<
+    CompletedDelivery[]
+  >([
     {
       id: "DEL-001",
       customer: "Premium Construction",
@@ -217,14 +219,16 @@ export const useDashboard = () => {
           id: `ORD-${String(Date.now()).slice(-3)}`,
           customer: `Customer ${Math.floor(Math.random() * 1000)}`,
           items: "Mixed Pipes Order",
-          priority: ["low", "medium", "high", "urgent"][Math.floor(Math.random() * 4)] as any,
+          priority: ["low", "medium", "high", "urgent"][
+            Math.floor(Math.random() * 4)
+          ] as any,
           time: "Just now",
           amount: `$${(Math.random() * 50000 + 5000).toFixed(0)}`,
           status: "pending",
         };
-        
-        setNewOrders(prev => [newOrderData, ...prev.slice(0, 4)]);
-        setMetrics(prev => ({
+
+        setNewOrders((prev) => [newOrderData, ...prev.slice(0, 4)]);
+        setMetrics((prev) => ({
           ...prev,
           totalOrders: prev.totalOrders + 1,
           todayOrders: prev.todayOrders + 1,
@@ -235,11 +239,14 @@ export const useDashboard = () => {
       // Update stock levels occasionally
       const shouldUpdateStock = Math.random() > 0.98; // 2% chance
       if (shouldUpdateStock) {
-        setLowStockItems(prev => 
-          prev.map(item => ({
+        setLowStockItems((prev) =>
+          prev.map((item) => ({
             ...item,
-            currentStock: Math.max(0, item.currentStock - Math.floor(Math.random() * 3)),
-          }))
+            currentStock: Math.max(
+              0,
+              item.currentStock - Math.floor(Math.random() * 3),
+            ),
+          })),
         );
       }
 
@@ -252,7 +259,7 @@ export const useDashboard = () => {
   const refreshData = async () => {
     setLoading(true);
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setLastUpdated(new Date());
     setLoading(false);
   };

@@ -111,7 +111,7 @@ const StaffList = () => {
   const handleExportStaff = () => {
     const staffToExport = filteredStaff;
     if (staffToExport.length === 0) {
-      alert('No staff members to export');
+      alert("No staff members to export");
       return;
     }
     exportStaffReport(staffToExport, undefined, { includeStats: true });
@@ -119,10 +119,12 @@ const StaffList = () => {
 
   const handleExportSelected = () => {
     if (selectedStaff.length === 0) {
-      alert('Please select staff members to export');
+      alert("Please select staff members to export");
       return;
     }
-    const selectedStaffData = filteredStaff.filter(staff => selectedStaff.includes(staff.id));
+    const selectedStaffData = filteredStaff.filter((staff) =>
+      selectedStaff.includes(staff.id),
+    );
     exportStaffReport(selectedStaffData, undefined, { includeStats: true });
   };
 
@@ -524,7 +526,8 @@ const StaffList = () => {
 
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-3">
-                          {staffMember.avatar && typeof staffMember.avatar === 'string' ? (
+                          {staffMember.avatar &&
+                          typeof staffMember.avatar === "string" ? (
                             <img
                               src={staffMember.avatar}
                               alt={`${staffMember.firstName} ${staffMember.lastName}`}
